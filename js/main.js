@@ -7,51 +7,52 @@ let signUpBtn = document.getElementById("sign-up-btn");
 // SIGN UP BTN CLICKED
 signUpBtn.addEventListener("click", signUpHandler);
 
-function signUpHandler() {}
-
+function signUpHandler() {
+  console.log("Sign Up Btn Clicked");
+  loadUsers();
+  saveUsers();
+  addUser();
+  newUser();
+}
 // SIGN IN BTN CLICKED
 signInBtn.addEventListener("click", signInHandler);
 
 function signInHandler() {
-  signUp();
+  let userSignIn = document.getElementById("usersigninHTML").value;
+  let passSignIn = document.getElementById("passsigninHTML").value;
+  if (userSignIn == loadUsers(users) && passSignIn == loadUsers(users)) {
+    alert("LOGIN SUCESSFUL");
+  } else {
+    alert("UNSUCESSFUL LOGIN");
+  }
   console.log("Sign In Btn Clicked");
 }
 
-let members = loadMembers();
-
-function signUp() {
-  addMember();
-  newContact();
-  loadMembers();
-  saveMembers();
-}
-
 // HELPER FUNCTIONS
+users = loadUsers();
 
-function addMember() {
-  let username = document.getElementById("userHTML").value;
-  let password = document.getElementById("passHTML").value;
-  let confirmPassword = document.getElementById("passConfirmHTML").value;
-  members.push(newContact(username, password, confirmPassword));
-  saveContacts();
-  displayAllContacts();
+function loadUsers() {
+  let jsonUsers = localStorage.getItem("contacts");
+  return JSON.parse(jsonUsers) ?? [];
 }
 
-function newContact(username, password, confirmPassword) {
+function saveUsers() {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function addUser() {
+  user = document.getElementById("userHTML").value;
+  pass = document.getElementById("passHTML").value;
+  if (user == loadUsers(user)) {
+    alert("Username already in Use.");
+  } else {
+    users.push(newUser(user, pass));
+    saveUsers();
+  }
+}
+function newUser(username, password) {
   return {
-    username: username,
-    password: password,
-    confirmpass: confirmPassword,
+    user: username,
+    pass: password,
   };
 }
-
-function loadMembers() {
-  let jsonMembers = localStorage.getItem("members");
-  return JSON.parse(jsonMembers) ?? [];
-}
-
-function saveMembers() {
-  localStorage.setItem("members", JSON.stringify(members));
-}
-
-function checkLogin() {}
